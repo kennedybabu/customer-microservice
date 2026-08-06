@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>("Error" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @ExceptionHandler(CustomerNotFoundException.class)
+  @ExceptionHandler(InvalidCustomerException.class)
   public ResponseEntity<String> handleInvalidCustomer(InvalidCustomerException e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
