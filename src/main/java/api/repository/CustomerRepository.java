@@ -1,0 +1,15 @@
+package api.repository;
+
+import api.model.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
+    Optional<Customer> findByAccountNumber(String accountNumber);
+
+    void deleteByAccountNumber(String accountNumber);
+
+//    Customer findCustomerByAccountNumberEntity(String accountNumber);
+}
