@@ -3,6 +3,7 @@ package api.controller;
 
 import api.dto.CustomerDTO;
 import api.service.CustomerService;
+import api.service.ProductClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,11 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    private final ProductClientService productClientService;
+
+    public CustomerController(CustomerService customerService, ProductClientService productClientService) {
         this.customerService = customerService;
+        this.productClientService = productClientService;
     }
 
     @GetMapping
@@ -69,5 +73,18 @@ public class CustomerController {
         long count = customerService.findAllCustomers().size();
         String message = "The number of customer(s) is " + count;
         return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/product-types")
+    public ResponseEntity<List<String>> getProductTypes() {
+        List<String> productTypes = productClientService.getAllProductTypes();
+        return new ResponseEntity<>(productTypes, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/descriptions")
+    public ResponseEntity<List<String>> getProductDescriptionsByType(
+            @RequestParam String productType) {
+        List<String> descriptions = productClientService.getProductDescriptionByType(productType);
+        return new ResponseEntity<>(descriptions, HttpStatus.OK);
     }
 }
